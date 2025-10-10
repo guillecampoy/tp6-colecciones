@@ -38,7 +38,7 @@ public abstract class SubMenu implements SubMenuAble {
         System.out.println("   " + titulo);
         UtilsColor.imprimirBloque(ContextColor.WARNING,"===========================================================");
         imprimirOpciones();
-        UtilsColor.imprimirBloque(ContextColor.DEFAULT, "Seleccione una opción: ");
+        UtilsColor.imprimirBloque(ContextColor.DEFAULT, "Seleccione una opción: ",'n');
     }
 
     private int leerOpcion() {
