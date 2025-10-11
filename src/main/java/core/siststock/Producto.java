@@ -29,4 +29,16 @@ public class Producto {
     public CategoriaProducto getCategoria() {
         return categoria;
     }
+
+    public int getStock() {
+        return cantidad;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public double getPrecio() {
+        return precio;
+    }
 }

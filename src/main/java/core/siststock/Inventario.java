@@ -61,6 +61,46 @@ public class Inventario {
         }
     }
 
+    public int totalStock() {
+        int total = 0;
+        for (Producto producto : productos) {
+            total+=producto.getStock();
+        }
+        return total;
+    }
+
+    public void productoMayorStock(){
+        // Asignamos por defecto el primer producto
+        Producto mayor = productos.getFirst();
+        for (Producto producto : productos) {
+            if (producto.getStock() > mayor.getStock()) {
+                mayor = producto;
+            }
+        }
+        UtilsColor.imprimirBloque(ContextColor.INFO, "Producto con mayor Stock ");
+        UtilsColor.imprimirBloque(ContextColor.DEFAULT,
+                "id: "+mayor.getId()
+                +" Nombre: "+mayor.getNombre()
+                +" Stock: "+mayor.getStock());
+    }
+
+    public void filtroPorPrecio(double precioMin, double precioMax) {
+        for (Producto producto : productos) {
+            if (producto.getPrecio() >= precioMin & producto.getPrecio()<= precioMax) {
+                producto.mostrarInfo();
+            }
+        }
+    }
+
+    public void mostrarCategoriasDisponibles() {
+        UtilsColor.imprimirBloque(ContextColor.INFO, "Categorias con Stock Disponible");
+        for (Producto producto : productos) {
+            if (producto.getStock() > 0) {
+                UtilsColor.imprimirBloque(ContextColor.DEFAULT, producto.getCategoria().getDescripcion());
+          }
+      }
+    }
+
 
 
 
@@ -76,9 +116,9 @@ OK buscarProductoPorId(String id)
 OK eliminarProducto(String id)
 OK actualizarStock(String id, int nuevaCantidad)
 OK filtrarPorCategoria(CategoriaProducto categoria)
-    (Mejora retornar una nueva lista y si está vacia indicar error o que no hay productos )
-● obtenerTotalStock()
-● obtenerProductoConMayorStock()
-● filtrarProductosPorPrecio(double min, double max)
-● mostrarCategoriasDisponibles()
+  (Mejora retornar una nueva lista y si está vacia indicar error o que no hay productos )
+OK obtenerTotalStock()
+OK obtenerProductoConMayorStock()
+OK filtrarProductosPorPrecio(double min, double max)
+OK mostrarCategoriasDisponibles()
  */
