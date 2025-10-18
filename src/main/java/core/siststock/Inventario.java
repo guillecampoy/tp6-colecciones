@@ -4,6 +4,8 @@ import utils.ContextColor;
 import utils.UtilsColor;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Inventario {
     ArrayList<Producto> productos;
@@ -25,10 +27,10 @@ public class Inventario {
         for (Producto producto : productos) {
             if (producto.getId().equals(id)) {
                 producto.mostrarInfo();
-            } else {
-                UtilsColor.imprimirBloque(ContextColor.ERROR, "No existe el producto con el id " + id);
+                return; // si encuentra es único, sale del método
             }
         }
+        UtilsColor.imprimirBloque(ContextColor.ERROR, "No existe el producto con el id " + id);
     }
 
     public void eliminarProductoPorId(String id) {
@@ -36,10 +38,10 @@ public class Inventario {
             if (producto.getId().equals(id)) {
                 productos.remove(producto);
                 UtilsColor.imprimirBloque(ContextColor.WARNING, "Eliminado el producto con el id " + id);
-            } else {
-                UtilsColor.imprimirBloque(ContextColor.ERROR, "No existe el producto con el id " + id);
+                return;
             }
         }
+        UtilsColor.imprimirBloque(ContextColor.ERROR, "No existe el producto con el id " + id);
     }
 
     public void actualizarStock(String id, int nuevaCantidad) {
@@ -47,10 +49,10 @@ public class Inventario {
             if (producto.getId().equals(id)) {
                 producto.setStock(nuevaCantidad);
                 UtilsColor.imprimirBloque(ContextColor.WARNING, "Actualizando stock de producto " + producto.getId());
-            } else {
-                UtilsColor.imprimirBloque(ContextColor.ERROR, "No existe el producto con el id " + id);
+                return;
             }
         }
+        UtilsColor.imprimirBloque(ContextColor.ERROR, "No existe el producto con el id " + id);
     }
 
     public void filtrarPorCategoria(CategoriaProducto categoria) {
@@ -85,40 +87,38 @@ public class Inventario {
     }
 
     public void filtroPorPrecio(double precioMin, double precioMax) {
+        boolean ocurrencias = false;
         for (Producto producto : productos) {
             if (producto.getPrecio() >= precioMin & producto.getPrecio()<= precioMax) {
                 producto.mostrarInfo();
+                ocurrencias = true;
             }
+        }
+        if (!ocurrencias) {
+            UtilsColor.imprimirBloque(ContextColor.ERROR, "No hay coincidencias en rango de precios");
         }
     }
 
     public void mostrarCategoriasDisponibles() {
         UtilsColor.imprimirBloque(ContextColor.INFO, "Categorias con Stock Disponible");
+
+        // Se utilizará una estructura que NO admite repetidos
+        Set<CategoriaProducto> categoriasConStock = new HashSet<>();
+
+        // Recorremos los productos y agregamos sus categorías al Set
         for (Producto producto : productos) {
             if (producto.getStock() > 0) {
-                UtilsColor.imprimirBloque(ContextColor.DEFAULT, producto.getCategoria().getDescripcion());
-          }
-      }
+                categoriasConStock.add(producto.getCategoria());
+            }
+        }
+
+        for (CategoriaProducto categoria : categoriasConStock) {
+            UtilsColor.imprimirBloque(ContextColor.DEFAULT, categoria.getDescripcion());
+        }
     }
 
 
-
-
-
-
-
+    public ArrayList<Producto> getProductos() {
+        return productos;
+    }
 }
-/*
-OK ArrayList<Producto> productos Métodos requeridos:
-OK agregarproducto(producto p)
-OK listarProductos()
-OK buscarProductoPorId(String id)
-OK eliminarProducto(String id)
-OK actualizarStock(String id, int nuevaCantidad)
-OK filtrarPorCategoria(CategoriaProducto categoria)
-  (Mejora retornar una nueva lista y si está vacia indicar error o que no hay productos )
-OK obtenerTotalStock()
-OK obtenerProductoConMayorStock()
-OK filtrarProductosPorPrecio(double min, double max)
-OK mostrarCategoriasDisponibles()
- */
