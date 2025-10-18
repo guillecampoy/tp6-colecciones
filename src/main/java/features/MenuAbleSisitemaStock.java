@@ -19,12 +19,15 @@ public class MenuAbleSisitemaStock extends SubMenu {
         System.out.println("2.  Listar productos");
         System.out.println("3.  Buscar producto por ID");
         System.out.println("4.  Eliminar producto por ID");
+        // confirmo eliminación y listo restantes
         System.out.println("5.  Actualizar stock");
         System.out.println("6.  Filtro por categoría");
         System.out.println("7.  Total de stock");
         System.out.println("8.  Producto con mayor stock");
         System.out.println("9.  Filtrado por precio");
+        // Filtrar productos con precios entre $1000 y $3000. Sobrecargar acá
         System.out.println("10. Listar categorías disponibles");
+        // Agregar descripciones Mostrar las categorías disponibles con sus descripciones.
         System.out.println("11. Cargar datos de prueba");
         System.out.println("0.  Volver");
     }

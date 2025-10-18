@@ -16,7 +16,7 @@ public class Producto {
         this.precio = precio;
         this.cantidad = cantidad;
         this.categoria = categoria;
-        id = generadorClaveProducto();
+        this.id = generadorClaveProducto();
     }
 
     private String generadorClaveProducto() {

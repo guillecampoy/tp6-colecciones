@@ -20,6 +20,7 @@ public class Inventario {
     public void listarProductos() {
         UtilsColor.imprimirBloque(ContextColor.INFO, "Listado de productos");
         for (Producto producto : productos) {
+            UtilsColor.imprimirBloque(ContextColor.DEFAULT, "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
             producto.mostrarInfo();
         }
     }
@@ -30,7 +31,7 @@ public class Inventario {
                 return; // si encuentra es único, sale del método
             }
         }
-        UtilsColor.imprimirBloque(ContextColor.ERROR, "No existe el producto con el id " + id);
+        mensajeErroneoPorDefecto("id ingresado");
     }
 
     public void eliminarProductoPorId(String id) {
@@ -41,7 +42,7 @@ public class Inventario {
                 return;
             }
         }
-        UtilsColor.imprimirBloque(ContextColor.ERROR, "No existe el producto con el id " + id);
+        mensajeErroneoPorDefecto("id ingresado");
     }
 
     public void actualizarStock(String id, int nuevaCantidad) {
@@ -52,7 +53,7 @@ public class Inventario {
                 return;
             }
         }
-        UtilsColor.imprimirBloque(ContextColor.ERROR, "No existe el producto con el id " + id);
+        mensajeErroneoPorDefecto("id ingresado");
     }
 
     public void filtrarPorCategoria(CategoriaProducto categoria) {
@@ -95,7 +96,7 @@ public class Inventario {
             }
         }
         if (!ocurrencias) {
-            UtilsColor.imprimirBloque(ContextColor.ERROR, "No hay coincidencias en rango de precios");
+            mensajeErroneoPorDefecto("Rango de precios indicado");
         }
     }
 
@@ -120,5 +121,10 @@ public class Inventario {
 
     public ArrayList<Producto> getProductos() {
         return productos;
+    }
+
+    // Métodos auxiliares
+    private void mensajeErroneoPorDefecto(String contexto) {
+        UtilsColor.imprimirBloque(ContextColor.ERROR, "No hay coincidencias para el "+contexto);
     }
 }
