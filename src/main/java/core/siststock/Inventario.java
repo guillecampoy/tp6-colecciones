@@ -39,6 +39,8 @@ public class Inventario {
             if (producto.getId().equals(id)) {
                 productos.remove(producto);
                 UtilsColor.imprimirBloque(ContextColor.WARNING, "Eliminado el producto con el id " + id);
+                // Eliminio y llamo al listado
+                listarProductos();
                 return;
             }
         }
