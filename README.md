@@ -15,21 +15,18 @@ orientada a objetos.
 ## 📂 Estructura del Proyecto
 
 ```bash
-TP4-POO/
+Tp6-colecciones/
 ├── src/
 │   ├── core/ # Clases de dominio necesarias para el desarrollo de los ejercicios
-│   │   ├──                   # TBD
-│   │   └──                  # TBD
+│   │   └──                  
 │   │
 │   ├── app/
 │   │   └── Main.java                       # Clase con método main, menu simple para ejecución del trabajo
 │   │
-│   ├── features/ # Clases que sirven para ejecutar los diferentes casos necesarios
-│   │   ├──    # TBD
-│   │   ├──     # TBD
-│   │   ├──   # TBD 
-│   │   └──     # TBD
-│   │
+│   ├── features/ # Sub menúes para acceder a los diferentes ejercicios
+│   │   └──     
+│   ├── fixtures/ # Carga de datos de prueba para los ejercicios
+│   │   └──    
 │   └── utils/
 │      ├── ContextColor.java                # Enumerado para establecer contextos para mensajes
 │      └── UtilsColor.java                  # Utilitarios para impresión con colores
@@ -37,32 +34,9 @@ TP4-POO/
 └── .gitignore
 ```
 
----
-
-## 📖 Desarrollo
-
-### 1 - Sistema de stock
-- Consideraciones
-### 2 - Biblioteca y libros
-- Consideraciones 
-### 3 - Universidad, profesor y curso 
-- Consideraciones
-
----
-
 ### Clase **Main**, con menú que permite:
 - Acceder a cada uno de los ejercicios propuestos (sub menús)
 - **Submenús** Cada sistema implementa su propio menú para ejecutar las acciones requeridas
----
-
-### Interfaz **Ejecutable**
-```java
-public interface Ejecutable {
-    void ejecutar();
-}
-```
-
-Todas las clases features (casos de uso) implementan esta interfaz para mantener consistencia en la ejecución.
 
 ---
 ✍️ **Autor:** Guillermo Campoy  
