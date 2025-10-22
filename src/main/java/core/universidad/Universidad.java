@@ -110,7 +110,7 @@ public class Universidad {
     public void eliminarProfesor(String id) {
         Profesor profesorAEliminar = buscarProfesor(id);
         if (profesorAEliminar == null) {
-            UtilsColor.imprimirBloque(ContextColor.ERROR, "Curso no encontrado");
+            UtilsColor.imprimirBloque(ContextColor.ERROR, "Profesor no encontrado");
             return;
         }
         // Se iteran todos los cursos y se asigna null si hay igualdad con profesor borrado
@@ -120,7 +120,7 @@ public class Universidad {
                 UtilsColor.imprimirBloque(ContextColor.INFO, "Nuevo curso sin docente: "+curso.getNombre());
             }
         }
+        profesores.remove(profesorAEliminar);
         UtilsColor.imprimirBloque(ContextColor.WARNING, "Profesor eliminado: "+profesorAEliminar.getNombre());
     }
 }
-

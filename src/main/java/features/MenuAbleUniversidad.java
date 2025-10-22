@@ -101,8 +101,16 @@ public class MenuAbleUniversidad extends SubMenu {
 
     private void cambioProfesor() {
         // Re asignamos materia de Arquitectura
-        Curso materia = DataStore.UNIVERSIDAD.getCursos().get(5); // arquitectura
-        Profesor nuevoProfe = DataStore.UNIVERSIDAD.getProfesores().get(4); // Profesor sin asignación en carga inicial
+        ArrayList<Curso> cursos = DataStore.UNIVERSIDAD.getCursos();
+        ArrayList<Profesor> profesores = DataStore.UNIVERSIDAD.getProfesores();
+
+        if (cursos.size() <= 5 || profesores.size() <= 4) {
+            UtilsColor.imprimirBloque(ContextColor.ERROR, "No hay suficientes datos para realizar el cambio de profesor");
+            return;
+        }
+
+        Curso materia = cursos.get(5); // arquitectura
+        Profesor nuevoProfe = profesores.get(4); // Profesor sin asignación en carga inicial
         DataStore.UNIVERSIDAD.asignarProfesor(materia.getCodigoCurso(), nuevoProfe.getId());
         // Agregar verificación
     }
@@ -110,13 +118,18 @@ public class MenuAbleUniversidad extends SubMenu {
     private void eliminarCurso() {
         // Se eliminarán dos cursos uno sin docente asignado y otro con docente asignado
         // Curso SIN docente programación web
-        Curso cursoSinAsignacionEliminado = DataStore.UNIVERSIDAD.getCursos().get(6);
-        Curso cursoConDocenteAsignado = DataStore.UNIVERSIDAD.getCursos().get(5);
+        ArrayList<Curso> cursos = DataStore.UNIVERSIDAD.getCursos();
+        if (cursos.size() <= 6) {
+            UtilsColor.imprimirBloque(ContextColor.ERROR, "No hay suficientes cursos para ejecutar la eliminación propuesta");
+            return;
+        }
+        Curso cursoSinAsignacionEliminado = cursos.get(6);
+        Curso cursoConDocenteAsignado = cursos.get(5);
 
         UtilsColor.imprimirBloque(ContextColor.INFO, "Listado de cursos a borrar");
         cursoSinAsignacionEliminado.mostrarInfo();
         cursoConDocenteAsignado.mostrarInfo();
-        UtilsColor.imprimirBloque(ContextColor.INFO, "Cantidad de cursos pre borrado "+DataStore.UNIVERSIDAD.getCursos().size());
+        UtilsColor.imprimirBloque(ContextColor.INFO, "Cantidad de cursos pre borrado "+cursos.size());
 
         // Eliminación //
         // Curso sin docente
@@ -129,9 +142,8 @@ public class MenuAbleUniversidad extends SubMenu {
         UtilsColor.imprimirBloque(ContextColor.DEFAULT, cursoConDocenteAsignado.getNombre());
         DataStore.UNIVERSIDAD.eliminarCurso(cursoConDocenteAsignado.getCodigoCurso());
 
-        UtilsColor.imprimirBloque(ContextColor.INFO, "Cantidad de cursos post borrado.. "+DataStore.UNIVERSIDAD.getCursos().size());
+        UtilsColor.imprimirBloque(ContextColor.INFO, "Cantidad de cursos post borrado.. "+cursos.size());
 
-        ArrayList<Curso> cursos = DataStore.UNIVERSIDAD.getCursos();
         for (Curso curso : cursos) {
             UtilsColor.imprimirBloque(ContextColor.INFO, curso.getNombre());
         }
@@ -140,8 +152,13 @@ public class MenuAbleUniversidad extends SubMenu {
 
     private void eliminarProfesor() {
         // Se eliminarán dos casos un docente con cursos y otro sin cursos
-        Profesor profeSinCursos = DataStore.UNIVERSIDAD.getProfesores().get(3);
-        Profesor profeConCursos = DataStore.UNIVERSIDAD.getProfesores().get(1); // Dos cursos de inglés
+        ArrayList<Profesor> profesores = DataStore.UNIVERSIDAD.getProfesores();
+        if (profesores.size() <= 3) {
+            UtilsColor.imprimirBloque(ContextColor.ERROR, "No hay suficientes profesores para ejecutar la eliminación propuesta");
+            return;
+        }
+        Profesor profeSinCursos = profesores.get(3);
+        Profesor profeConCursos = profesores.get(1); // Dos cursos de inglés
 
         UtilsColor.imprimirBloque(ContextColor.INFO, "Listado de cursos");
         ArrayList<Curso> cursos = DataStore.UNIVERSIDAD.getCursos();
@@ -154,7 +171,7 @@ public class MenuAbleUniversidad extends SubMenu {
         DataStore.UNIVERSIDAD.eliminarProfesor(profeSinCursos.getId());
 
         // Profe con cursos
-        DataStore.UNIVERSIDAD.eliminarCurso(profeConCursos.getId());
+        DataStore.UNIVERSIDAD.eliminarProfesor(profeConCursos.getId());
 
         UtilsColor.imprimirBloque(ContextColor.INFO, "Listado de cursos post borrado");
         for (Curso curso : cursos) {

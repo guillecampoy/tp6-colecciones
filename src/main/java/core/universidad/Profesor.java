@@ -55,8 +55,12 @@ public class Profesor {
     // métodos auxiliares
     private String generadorClaveProfesor() {
         // por convención siempre guardamos en mayúsculas
-        String inicialesNombre = nombre.substring(0, 2).toUpperCase();;
-        String inicialesEspecialidad = espacialidad.substring(0, 3).toUpperCase();
+        String baseNombre = nombre == null ? "" : nombre.trim();
+        String baseEspecialidad = espacialidad == null ? "" : espacialidad.trim();
+        String parcialNombre = baseNombre.isEmpty() ? "PR" : baseNombre.substring(0, Math.min(2, baseNombre.length()));
+        String parcialEspecialidad = baseEspecialidad.isEmpty() ? "ESP" : baseEspecialidad.substring(0, Math.min(3, baseEspecialidad.length()));
+        String inicialesNombre = parcialNombre.toUpperCase();
+        String inicialesEspecialidad = parcialEspecialidad.toUpperCase();
         return inicialesNombre + inicialesEspecialidad + contador++;
     }
 

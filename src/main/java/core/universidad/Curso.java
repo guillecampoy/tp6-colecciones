@@ -25,13 +25,23 @@ public class Curso {
         this.profesor = nuevo;
 
         // Quitar del anterior
-        if (anterior != null && nuevo != null) {
+        if (anterior != null) {
+            boolean estabaAsignado = anterior.getCursos().contains(this);
             anterior.eliminarCurso(this);
-            UtilsColor.imprimirBloque(ContextColor.WARNING, "Profesor quitado del curso "+anterior.getNombre());
-            // Agregar al nuevo
-            nuevo.agregarCurso(this);
-            UtilsColor.imprimirBloque(ContextColor.SUCCESS, "Nuevo profesor agregado al curso "+nuevo.getNombre());
-        } if (nuevo == null) {
+            if (estabaAsignado && !anterior.getCursos().contains(this)) {
+                UtilsColor.imprimirBloque(ContextColor.WARNING, "Profesor quitado del curso "+anterior.getNombre());
+            }
+        }
+
+        if (nuevo != null) {
+            boolean yaAsignado = nuevo.getCursos().contains(this);
+            if (!yaAsignado) {
+                nuevo.agregarCurso(this);
+                UtilsColor.imprimirBloque(ContextColor.SUCCESS, "Nuevo profesor agregado al curso "+nuevo.getNombre());
+            } else {
+                UtilsColor.imprimirBloque(ContextColor.INFO, "El curso ya estaba asignado al profesor "+nuevo.getNombre());
+            }
+        } else {
             UtilsColor.imprimirBloque(ContextColor.WARNING, "Actualizando... curso sin profesor");
         }
 
@@ -53,7 +63,9 @@ public class Curso {
     // métodos auxiliares
     private String generadorClaveCurso() {
         // por convención siempre guardamos en mayúsculas
-        String inicialesNombre = nombre.substring(0, 3).toUpperCase();;
+        String base = nombre == null ? "" : nombre.trim();
+        String parcial = base.isEmpty() ? "CUR" : base.substring(0, Math.min(3, base.length()));
+        String inicialesNombre = parcial.toUpperCase();
         return inicialesNombre + contador++;
     }
 
