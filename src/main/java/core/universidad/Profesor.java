@@ -20,24 +20,21 @@ public class Profesor {
     }
 
     public void agregarCurso(Curso nuevoCurso) {
-        // validaciones para determinar unicidad en la lista
-        // Se sobre escribirán métodos de equals y hashcode en clase cursos
-        // para que esto funcione de forma apropiada
-        if (!this.cursos.contains(nuevoCurso)) {
-            this.cursos.add(nuevoCurso);
-        } else {
-            UtilsColor.imprimirBloque(ContextColor.ERROR, "El curso ya existe");
+        if (nuevoCurso == null) return;
+        if (cursos.add(nuevoCurso)) {
+            if (nuevoCurso.getProfesor() != this) {
+                nuevoCurso.setProfesor(this);
+            }
         }
     }
 
     public void eliminarCurso(Curso curso) {
-        // implementar syncro con cursos
-        if  (this.cursos.contains(curso)) {
-            this.cursos.remove(curso);
-        } else {
-            UtilsColor.imprimirBloque(ContextColor.ERROR, "El curso no existe en listado de asignaciones");
+        if (curso == null) return;
+        if (cursos.remove(curso)) {
+            if (curso.getProfesor() == this) {
+                curso.setProfesor(null);
+            }
         }
-
     }
 
     public void listadoCursos(){
@@ -69,5 +66,9 @@ public class Profesor {
 
     public String getNombre() {
         return nombre;
+    }
+
+    public ArrayList<Curso> getCursos() {
+        return cursos;
     }
 }

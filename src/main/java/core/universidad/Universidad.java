@@ -44,7 +44,6 @@ public class Universidad {
                         + " asignado a curso " + curso.getNombre() +", con código: "+curso.getCodigoCurso());
     }
 
-    // Métodos soporte para reforzar usabilidad
     private Curso buscarCursoPorCodigo(String codigo) {
         for (Curso c : cursos) {
             if (c.getCodigoCurso().equals(codigo)) {
@@ -79,23 +78,47 @@ public class Universidad {
         }
     }
 
+    public ArrayList<Profesor> getProfesores() {
+        return profesores;
+    }
 
+    public ArrayList<Curso> getCursos() {
+        return cursos;
+    }
 
-    /*
-• eliminarCurso(String codigo) → Debe romper la relación con su profesor
-si la hubiera.
-• eliminarProfesor(String id) → Antes de remover, dejar null los cursos que
-dictaba.
-Tareas a realizar
-Crear al menos 3 profesores y 5 cursos.
-Agregar profesores y cursos a la universidad.
-Asignar profesores a cursos usando asignarProfesorACurso(...).
-Listar cursos con su profesor y profesores con sus cursos.
-Cambiar el profesor de un curso y verificar que ambos lados quedan
-sincronizados.
-Remover un curso y confirmar que ya no aparece en la lista del profesor.
-Remover un profesor y dejar profesor = null,
-Mostrar un reporte: cantidad de cursos por profesor.
-     */
+    public void eliminarCurso(String curso) {
+        Curso cursoAEliminar = buscarCursoPorCodigo(curso);
+
+        if (curso == null) {
+            UtilsColor.imprimirBloque(ContextColor.ERROR, "Curso no encontrado");
+            return;
+        }
+        // Se iteran todos los profesores y se asigna null si hay igualdad con curso borrado
+        for (Profesor profesor : profesores) {
+            if ((profesor.getCursos().contains(cursoAEliminar))) {
+                profesor.eliminarCurso(cursoAEliminar);
+                UtilsColor.imprimirBloque(ContextColor.INFO, "Curso eliminado, se quita de lista del docente: "+profesor.getNombre());
+                return; // la asignación es única si hay equivalencia retorno
+            }
+            UtilsColor.imprimirBloque(ContextColor.WARNING, "No había docente asignado al curso, curso eliminado");
+        }
+
+    }
+
+    public void eliminarProfesor(String id) {
+        Profesor profesorAEliminar = buscarProfesor(id);
+        if (profesorAEliminar == null) {
+            UtilsColor.imprimirBloque(ContextColor.ERROR, "Curso no encontrado");
+            return;
+        }
+        // Se iteran todos los cursos y se asigna null si hay igualdad con profesor borrado
+        for (Curso curso : cursos) {
+            if (curso.getProfesor().equals(profesorAEliminar)){
+                curso.setProfesor(null);
+                UtilsColor.imprimirBloque(ContextColor.INFO, "Nuevo curso sin docente: "+curso.getNombre());
+            }
+        }
+        UtilsColor.imprimirBloque(ContextColor.WARNING, "Profesor eliminado: "+profesorAEliminar.getNombre());
+    }
 }
 
