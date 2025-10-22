@@ -25,13 +25,16 @@ public class Curso {
         this.profesor = nuevo;
 
         // Quitar del anterior
-        if (anterior != null) {
+        if (anterior != null && nuevo != null) {
             anterior.eliminarCurso(this);
             UtilsColor.imprimirBloque(ContextColor.WARNING, "Profesor quitado del curso "+anterior.getNombre());
+            // Agregar al nuevo
+            nuevo.agregarCurso(this);
+            UtilsColor.imprimirBloque(ContextColor.SUCCESS, "Nuevo profesor agregado al curso "+nuevo.getNombre());
+        } if (nuevo == null) {
+            UtilsColor.imprimirBloque(ContextColor.WARNING, "Actualizando... curso sin profesor");
         }
-        // Agregar al nuevo
-        nuevo.agregarCurso(this);
-        UtilsColor.imprimirBloque(ContextColor.SUCCESS, "Nuevo profesor agregado al curso "+nuevo.getNombre());
+
 
     }
 
@@ -55,10 +58,15 @@ public class Curso {
     }
 
     public void mostrarInfo() {
+        UtilsColor.imprimirBloque(ContextColor.DEFAULT, "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
         UtilsColor.imprimirBloque(ContextColor.INFO, "Datos del curso");
         UtilsColor.imprimirBloque(ContextColor.DEFAULT, "Código: "+codigo);
         UtilsColor.imprimirBloque(ContextColor.DEFAULT, "Nombre: "+nombre);
-        profesor.mostrarInfo();
+        if (profesor != null) {
+            profesor.mostrarInfo();
+        } else {
+            UtilsColor.imprimirBloque(ContextColor.WARNING, "Materia sin profesor");
+        }
     }
 
     public String getCodigoCurso() {

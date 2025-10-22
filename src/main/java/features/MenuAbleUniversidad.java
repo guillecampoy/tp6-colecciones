@@ -7,6 +7,8 @@ import data.DataStore;
 import utils.ContextColor;
 import utils.UtilsColor;
 
+import java.util.ArrayList;
+
 public class MenuAbleUniversidad extends SubMenu {
     private boolean flagInit = false;
 
@@ -19,7 +21,7 @@ public class MenuAbleUniversidad extends SubMenu {
         System.out.println("1. Set up inicial (1 por ejecución, se maneja fallo con un flag)");
         System.out.println("2. Agregar profesor");
         System.out.println("3. Agregar curso");
-        System.out.println("4. Asignar profesor a curso");
+        System.out.println("4. Asignacion automatizada (pruebas dependencia con opción 1)");
         System.out.println("5. Listado de profesores (con sus cursos)");
         System.out.println("6. Listado de cursos con sus profesores");
         System.out.println("7. Cambio de profesor asignado al curso");
@@ -80,9 +82,13 @@ public class MenuAbleUniversidad extends SubMenu {
     }
 
     private void asignarProfesor() {
+        if (flagInit) {
         System.out.println("Se asignarán de forma automática 3 profesores a 5 cursos");
         asignacionAutomatica();
         DataStore.UNIVERSIDAD.listadoProfesores();
+        } else {
+            UtilsColor.imprimirBloque(ContextColor.ERROR, "Debe inicializar la universidad (opción 1)");
+        }
     }
 
     private void listadoProfesores() {
@@ -107,16 +113,29 @@ public class MenuAbleUniversidad extends SubMenu {
         Curso cursoSinAsignacionEliminado = DataStore.UNIVERSIDAD.getCursos().get(6);
         Curso cursoConDocenteAsignado = DataStore.UNIVERSIDAD.getCursos().get(5);
 
-        // listar profesores primero con sus cursos
+        UtilsColor.imprimirBloque(ContextColor.INFO, "Listado de cursos a borrar");
+        cursoSinAsignacionEliminado.mostrarInfo();
+        cursoConDocenteAsignado.mostrarInfo();
+        UtilsColor.imprimirBloque(ContextColor.INFO, "Cantidad de cursos pre borrado "+DataStore.UNIVERSIDAD.getCursos().size());
 
         // Eliminación //
         // Curso sin docente
+        UtilsColor.imprimirBloque(ContextColor.INFO, "Se elimina curso SIN profesor");
+        UtilsColor.imprimirBloque(ContextColor.DEFAULT, cursoSinAsignacionEliminado.getNombre());
         DataStore.UNIVERSIDAD.eliminarCurso(cursoSinAsignacionEliminado.getCodigoCurso());
 
         // Curso con docente
+        UtilsColor.imprimirBloque(ContextColor.INFO, "\nSe elimina curso CON profesor");
+        UtilsColor.imprimirBloque(ContextColor.DEFAULT, cursoConDocenteAsignado.getNombre());
         DataStore.UNIVERSIDAD.eliminarCurso(cursoConDocenteAsignado.getCodigoCurso());
 
-        // listar profesores al final (que se elimine el curso)
+        UtilsColor.imprimirBloque(ContextColor.INFO, "Cantidad de cursos post borrado.. "+DataStore.UNIVERSIDAD.getCursos().size());
+
+        ArrayList<Curso> cursos = DataStore.UNIVERSIDAD.getCursos();
+        for (Curso curso : cursos) {
+            UtilsColor.imprimirBloque(ContextColor.INFO, curso.getNombre());
+        }
+
     }
 
     private void eliminarProfesor() {
@@ -124,7 +143,11 @@ public class MenuAbleUniversidad extends SubMenu {
         Profesor profeSinCursos = DataStore.UNIVERSIDAD.getProfesores().get(3);
         Profesor profeConCursos = DataStore.UNIVERSIDAD.getProfesores().get(1); // Dos cursos de inglés
 
-        // listar cursos con sus profesores
+        UtilsColor.imprimirBloque(ContextColor.INFO, "Listado de cursos");
+        ArrayList<Curso> cursos = DataStore.UNIVERSIDAD.getCursos();
+        for (Curso curso : cursos) {
+            curso.mostrarInfo();
+        }
 
         // Eliminación //
         // Profe sin cursos
@@ -133,7 +156,10 @@ public class MenuAbleUniversidad extends SubMenu {
         // Profe con cursos
         DataStore.UNIVERSIDAD.eliminarCurso(profeConCursos.getId());
 
-        // Evidenciar cursos con Asignación null
+        UtilsColor.imprimirBloque(ContextColor.INFO, "Listado de cursos post borrado");
+        for (Curso curso : cursos) {
+            curso.mostrarInfo();
+        }
 
     }
 

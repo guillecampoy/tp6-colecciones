@@ -98,11 +98,13 @@ public class Universidad {
             if ((profesor.getCursos().contains(cursoAEliminar))) {
                 profesor.eliminarCurso(cursoAEliminar);
                 UtilsColor.imprimirBloque(ContextColor.INFO, "Curso eliminado, se quita de lista del docente: "+profesor.getNombre());
+                // Se elimina de la lista de cursos
+                cursos.remove(cursoAEliminar);
                 return; // la asignación es única si hay equivalencia retorno
             }
-            UtilsColor.imprimirBloque(ContextColor.WARNING, "No había docente asignado al curso, curso eliminado");
         }
-
+        UtilsColor.imprimirBloque(ContextColor.WARNING, "No había docente asignado al curso, curso eliminado");
+        cursos.remove(cursoAEliminar);
     }
 
     public void eliminarProfesor(String id) {
@@ -113,7 +115,7 @@ public class Universidad {
         }
         // Se iteran todos los cursos y se asigna null si hay igualdad con profesor borrado
         for (Curso curso : cursos) {
-            if (curso.getProfesor().equals(profesorAEliminar)){
+            if (curso.getProfesor() != null && curso.getProfesor().equals(profesorAEliminar)){
                 curso.setProfesor(null);
                 UtilsColor.imprimirBloque(ContextColor.INFO, "Nuevo curso sin docente: "+curso.getNombre());
             }
